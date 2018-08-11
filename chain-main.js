@@ -3,7 +3,7 @@ const BN = require("bn.js")
 
 const options = {
     port: 3416,
-    hostname: '127.0.0.1',
+    hostname: '0.0.0.0',
     db_path: '../gn_main',
     accounts: [
         {
