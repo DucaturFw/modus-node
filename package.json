@@ -7,5 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vitaly Berg (bergusman@gmail.com)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "ganache-cli": "^6.1.6",
+    "ganache-core": "^2.1.6",
+    "web3": "^1.0.0-beta.35"
+  }
 }
