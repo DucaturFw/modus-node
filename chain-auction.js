@@ -4,7 +4,7 @@ const BN = require("bn.js")
 const options = {
     port: 4267,
     hostname: '127.0.0.1',
-    db_path: '../bc_auction',
+    db_path: '../gn_auction',
     accounts: [
         {
             secretKey: '0xebed62445f346abe7f51bd1a80be9788007570a83e9c43a5a45cb49c33b9a85f', 
