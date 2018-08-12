@@ -87,7 +87,7 @@ class Auction {
         
             erc20.methods.transfer(this.config.main.ft.address, task.amount).send({
                 from: ethereumAddress(this.config.main.secret),
-                gas: '1000000'
+                gas: '4000000'
             }, (err, res) => {
                 if (err) {
                     return console.error(err)
@@ -134,7 +134,7 @@ class Auction {
         contract.methods.swap(this.lot, this.secret)
             .send({
                 from: ethereumAddress(this.config.main.secret),
-                gas: '2000000'
+                gas: '4000000'
             })
             .on('transactionHash', tx => {
                 console.log(tx)
