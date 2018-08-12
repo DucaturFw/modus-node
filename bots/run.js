@@ -15,18 +15,18 @@ const seeta = new Bot({
         secret: config.auction.bots.seeta
     },
     tokens: {
-        '0x455d866fcb8e977965bd4627612c411ab2a05cc3': {
+        '0x131fc9e0314d16904ebc1b5005155b8fc90a093f': {
             name: 'Maker',
             symbol: 'MKR',
             decimal: 4,
-            address: '0x455d866fcb8e977965bd4627612c411ab2a05cc3',
+            address: '0x131fc9e0314d16904ebc1b5005155b8fc90a093f',
             price: 1.46
         },
-        '0x11f68e042484e7243207e02a10904a649528ac0f': {
+        '0x82ef3dbdee71bb9ccf98eec777180ffb58f0c8a7': {
             name: 'OmiseGO',
             symbol: 'OMG',
             decimal: 4,
-            address: '0x11f68e042484e7243207e02a10904a649528ac0f',
+            address: '0x82ef3dbdee71bb9ccf98eec777180ffb58f0c8a7',
             price: 0.013
         },
         '0xa17fafbab3a66262509c27bf4430bb4ec86af33a': {
@@ -59,18 +59,18 @@ const geeta = new Bot({
         secret: config.auction.bots.geeta
     },
     tokens: {
-        '0x455d866fcb8e977965bd4627612c411ab2a05cc3': {
+        '0x131fc9e0314d16904ebc1b5005155b8fc90a093f': {
             name: 'Maker',
             symbol: 'MKR',
             decimal: 4,
-            address: '0x455d866fcb8e977965bd4627612c411ab2a05cc3',
+            address: '0x131fc9e0314d16904ebc1b5005155b8fc90a093f',
             price: 1.6
         },
-        '0x11f68e042484e7243207e02a10904a649528ac0f': {
+        '0x82ef3dbdee71bb9ccf98eec777180ffb58f0c8a7': {
             name: 'OmiseGO',
             symbol: 'OMG',
             decimal: 4,
-            address: '0x11f68e042484e7243207e02a10904a649528ac0f',
+            address: '0x82ef3dbdee71bb9ccf98eec777180ffb58f0c8a7',
             price: 0.008
         },
         '0xa17fafbab3a66262509c27bf4430bb4ec86af33a': {
