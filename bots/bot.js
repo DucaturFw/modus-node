@@ -104,6 +104,7 @@ class Auction {
         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         console.log('FtID:', this.lot)
         console.log('Secret:', this.secret)
+        console.log(EthUtil.bufferToHex(this.secret))
         
         const abi = require(`../abis/${this.config.main.ft.abi}`)
         const contract = new this.mainWeb3.eth.Contract(abi, this.config.main.ft.address)
@@ -214,6 +215,7 @@ class Bot {
         console.log(lot)
         console.log(tokens)
         console.log(bets)
+        console.log(EthUtil.bufferToHex(secret))
         console.log(hash)
 
         contract.methods.createBet(lot, bets, hash)
