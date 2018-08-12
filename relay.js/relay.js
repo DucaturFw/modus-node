@@ -21,19 +21,3 @@ mainFactory.events.NewToken().on('data', event => {
 }).on('error', err => {
     console.error(err)
 })
-
-// Create contract in quote
-// Crea
-
-/*
-Result {
-    '0': 
-     [ '0x43d041D4c8b83C5B70Fa06e1415AbA361f89d2BC',
-       '0x325ea5972BB0Fa21d13FDE235B1A0F47D3b95181' ],
-    '1': [ '37', '70' ],
-    _tokens: 
-     [ '0x43d041D4c8b83C5B70Fa06e1415AbA361f89d2BC',
-       '0x325ea5972BB0Fa21d13FDE235B1A0F47D3b95181' ],
-    _weights: [ '37', '70' ] }
-
-    */
