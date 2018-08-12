@@ -24,6 +24,9 @@ const ft = new mainWeb3.eth.Contract(ftABI, config.main.contracts.ft.address)
 const auctionABI = require(`../abis/${config.auction.contracts.auction.abi}`)
 const auction = new auctionWeb3.eth.Contract(auctionABI, config.auction.contracts.auction.address)
 
+console.log('Start listening')
+console.log(config.main.contracts.ft)
+
 ft.events.NewToken()
     .on('data', event => {
         handleNewToken(event)

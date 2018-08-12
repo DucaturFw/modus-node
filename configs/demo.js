@@ -44,7 +44,7 @@ module.exports = {
 
     },
     auction: {
-        ws: 'ws://127.0.0.1:4267',
+        ws: 'ws://0.0.0.0:4267',
         contracts: {
             auction: {
                 abi: 'flat_a.json',
