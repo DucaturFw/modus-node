@@ -1,18 +1,17 @@
+const config = require('../config')
+
 const Bot = require('./bot')
 
 const seeta = new Bot({
     name: 'Seeta',
     main: {
-        ws: 'wss://ropsten.infura.io/ws',
+        ws: config.main.ws,
         secret: '0xebed62445f346abe7f51bd1a80be9788007570a83e9c43a5a45cb49c33b9a85f'
     },
     auction: {
-        ws: 'wss://ropsten.infura.io/ws',
-        secret: '0xebed62445f346abe7f51bd1a80be9788007570a83e9c43a5a45cb49c33b9a85f',
-        auction: {
-            abi: 'simple_a.json',
-            address: '0xbb6dbb073d6aa48166bf374980c2239ddb4446a3'
-        }
+        ws: config.auction.ws,
+        auction: config.auction.contracts.auction,
+        secret: '0xebed62445f346abe7f51bd1a80be9788007570a83e9c43a5a45cb49c33b9a85f'
     },
     tokens: {
         '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e': {
@@ -49,16 +48,13 @@ const seeta = new Bot({
 const geeta = new Bot({
     name: 'Geeta',
     main: {
-        ws: 'wss://ropsten.infura.io/ws',
+        ws: config.main.ws,
         secret: '0xca1055d4fa0f2473237315d6a0a9b3a011e87578b2902ee611160a85e4d49a16'
     },
     auction: {
-        ws: 'wss://ropsten.infura.io/ws',
-        secret: '0xca1055d4fa0f2473237315d6a0a9b3a011e87578b2902ee611160a85e4d49a16',
-        auction: {
-            abi: 'simple_a.json',
-            address: '0xbb6dbb073d6aa48166bf374980c2239ddb4446a3'
-        }
+        ws: config.auction.ws,
+        auction: config.auction.contracts.auction,
+        secret: '0xca1055d4fa0f2473237315d6a0a9b3a011e87578b2902ee611160a85e4d49a16'
     },
     tokens: {
         '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e': {

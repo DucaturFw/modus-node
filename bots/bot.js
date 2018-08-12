@@ -163,7 +163,7 @@ class Bot {
             })
             .once('receipt', receipt => {
                 const bet = receipt.events.CreateBet.returnValues.bet
-                this.log(`methods.createBet.on.receipt: #${lot} #${bet}`)
+                this.log(`methods.createBet.on.receipt: #${lot} ${bet}`)
 
                 if (receipt.events.CreateBet) {
                     const auction = new Auction(

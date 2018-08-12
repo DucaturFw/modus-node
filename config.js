@@ -1,15 +1,24 @@
 module.exports = {
     main: {
         ws: 'wss://ropsten.infura.io/ws',
-        factory: {
-            abi: 'eth_flat.json',
-            address: '0x7371ea969af4bc5b8ac03cbd3dcbb654003a8ffe'
-        },
-        etf: {
-            abi: 'etf.json'
+        contracts: {
+            factory: {
+                abi: 'eth_flat.json',
+                address: '0x7371ea969af4bc5b8ac03cbd3dcbb654003a8ffe'
+            },
+            etf: {
+                abi: 'etf.json'
+            }
         }
     },
     auction: {
+        ws: 'wss://ropsten.infura.io/ws',
+        contracts: {
+            auction: {
+                abi: 'flat_a.json',
+                address: '0x8337a64ee92b5763977bc10b5361ea0f6423e768'
+            }
+        },
         net: {
             port: 4267,
             hostname: '0.0.0.0',
@@ -21,6 +30,7 @@ module.exports = {
                 }
             ]
         }
+        
     },
 
     nets: {
