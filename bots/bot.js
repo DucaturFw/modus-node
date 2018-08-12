@@ -20,12 +20,12 @@ class Auction {
         this.bet = bet
         this.status = 'none'
 
-        console.log('Start monitoring auction')
+        this.log('Start monitoring auction')
         this.checkWin()
     }
 
     checkWin() {
-        console.log('Check win')
+        this.log('Check win')
 
         const abi = require(`../abis/${this.config.auction.auction.abi}`)
         const contract = new this.auctionWeb3.eth.Contract(abi, this.config.auction.auction.address)
@@ -39,8 +39,8 @@ class Auction {
         contract.methods.getWinningBet(this.lot).call({
             from: ethereumAddress(this.config.auction.secret)
         }).then(res => {
-            console.log('Win bet:', res)
-            console.log('My bet:', this.bet)
+            this.log('Win bet:', res)
+            this.log('My bet:', this.bet)
             let bet = parseInt(res)
 
             if (bet > 0) {
@@ -54,13 +54,21 @@ class Auction {
                 repeat()
             }
         }).catch(err => {
-            console.error(err)
+            this.error(err)
             repeat()
         })
     }
 
     handleWin() {
-        console.log(`${this.bet} win ${this.lot}`)
+        this.log(`${this.bet} win ${this.lot}`)
+    }
+
+    log(text) {
+        console.log(`${this.config.name}: ${text}`)
+    }
+
+    error(err) {
+        console.error(`${this.config.name}: ${err}`)
     }
 }
 
@@ -82,6 +90,7 @@ class Bot {
 
     run() {
         this.listenLot()
+        this.log('Started')
     }
 
     listenLot() {
@@ -90,19 +99,23 @@ class Bot {
 
         contract.events.CreateLot()
             .on('data', event => {
+                this.log('events.CreateLot: on data')
                 this.handleLot(event)
             })
             .on('changed', event => {
-                console.log(event)
+                this.log('events.CreateLot: on changed')
             })
             .on('error', err => {
-                console.log(err)
+                this.log(`events.CreateLot: on error: ${err}`)
             })
     }
 
     handleLot(event) {
+        const lot = event.returnValues.lot
         const total = parseFloat(Web3.utils.fromWei(event.returnValues.amountETH))
-        console.log(`Total: ${total.toFixed(8)} ETH`)
+
+        this.log(`Handle lot: #${lot}`)
+        this.log(`Total: ${total.toFixed(8)} ETH`)
 
         let bets = []
 
@@ -117,14 +130,14 @@ class Bot {
                 let bet = ((new Big(amount)).times((new Big(10)).pow(botToken.decimal))).toFixed(0)
                 bets.push(bet)
 
-                console.log(`${botToken.name}: ${amount.toFixed(4)} ${botToken.symbol} to bet: ${bet}`)
+                this.log(`${botToken.name}: ${amount.toFixed(4)} ${botToken.symbol} to bet: ${bet}`)
             } else {
-                console.log('Does not have token:', token)
+                this.log('Does not have token:', token)
                 return
             }
         }
 
-        this.bet(event.returnValues.lot, event.returnValues.tokens, bets)
+        this.bet(lot, event.returnValues.tokens, bets)
     }
 
     bet(lot, tokens, bets) {
@@ -135,10 +148,7 @@ class Bot {
         const secret = Buffer.from(uuid, 'utf-8')
         const hash = EthUtil.bufferToHex(new RIPEMD160().update(secret).digest())
 
-        console.log(lot)
-        console.log(bets)
-        console.log(hash)
-        console.log(uuid)
+        this.log(`methods.createBet: #${lot}`)
 
         contract.methods.createBet(lot, bets, hash)
             .send({
@@ -146,9 +156,12 @@ class Bot {
                 gas: '2000000'
             })
             .on('transactionHash', tx => {
-                console.log(tx)
+                this.log(`methods.createBet.on.tx: ${tx}`)
             })
             .once('receipt', receipt => {
+                const bet = receipt.events.CreateBet.returnValues.bet
+                this.log(`methods.createBet.on.receipt: #${lot} #${bet}`)
+
                 if (receipt.events.CreateBet) {
                     const auction = new Auction(
                         this.config,
@@ -158,14 +171,22 @@ class Bot {
                         tokens,
                         bets,
                         uuid,
-                        receipt.events.CreateBet.returnValues.bet
+                        bet
                     )
                     this.auctions.push(auction)
                 }
             })
             .on('error', err => {
-                console.error(err)
+                this.error(`methods.createBet.on.error: ${err}`)
             })
+    }
+
+    log(text) {
+        console.log(`${this.config.name}: ${text}`)
+    }
+
+    error(err) {
+        console.error(`${this.config.name}: ${err}`)
     }
 }
 
