@@ -2,12 +2,9 @@ module.exports = {
     main: {
         ws: 'wss://ropsten.infura.io/ws',
         contracts: {
-            factory: {
-                abi: 'eth_flat.json',
-                address: '0x7371ea969af4bc5b8ac03cbd3dcbb654003a8ffe'
-            },
-            etf: {
-                abi: 'etf.json'
+            ft: {
+                abi: 'ft.json',
+                address: '0xaba6181f8baad9d65bfcadadf3a237c2aa73cac6'
             }
         },
         ganache: {
