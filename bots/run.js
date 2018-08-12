@@ -6,12 +6,12 @@ const seeta = new Bot({
     name: 'Seeta',
     main: {
         ws: config.main.ws,
-        secret: '0xa69343cfe238406702b6e4cb6ebb35e92c08fb1e4ea42bda4ba1700803966c6d'
+        secret: '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
     },
     auction: {
         ws: config.auction.ws,
         auction: config.auction.contracts.auction,
-        secret: '0xa69343cfe238406702b6e4cb6ebb35e92c08fb1e4ea42bda4ba1700803966c6d'
+        secret: '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
     },
     tokens: {
         '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e': {
@@ -49,12 +49,12 @@ const geeta = new Bot({
     name: 'Geeta',
     main: {
         ws: config.main.ws,
-        secret: '0x9ffd3c522699f25cc096095ae45cfdeae8bfb81c43335b0edf4fff4f4963fc65'
+        secret: '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
     },
     auction: {
         ws: config.auction.ws,
         auction: config.auction.contracts.auction,
-        secret: '0x9ffd3c522699f25cc096095ae45cfdeae8bfb81c43335b0edf4fff4f4963fc65'
+        secret: '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
     },
     tokens: {
         '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e': {

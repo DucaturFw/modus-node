@@ -75,18 +75,24 @@ function checkLot(ftId) {
     auction.methods.getWinningBet(ftId).call({
         from: ethereumAddress(config.auction.relay.secret)
     }).then(res => {
-        console.log(`Won bet ${res} on #${ftId}`)
         if (parseInt(res) > 0) {
-            commitWin(ftId, bet)
+            console.log(`Won bet ${res} on #${ftId}`)
+            getLotInfo(ftId, parseInt(res))
         }
     }).catch(err => {
         console.error(err)
     })
 }
 
-function commitWin(ftId, bet) {
-
-    
+function getLotInfo(ftId, bet) {
+    auction.methods.getWinBetInfo(ftId).call({
+        from: ethereumAddress(config.auction.relay.secret)
+    }).then(res => {
+        console.log(res)
+        setWinner(ftId, res.score, res.secretHash)
+    }).catch(err => {
+        console.error(err)
+    })
 }
 
 function setWinner(ftId, tokenValue, secretHash) {
