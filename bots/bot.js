@@ -9,7 +9,59 @@ function ethereumAddress(secret) {
 }
 
 class Auction {
+    constructor(config, mainWeb3, auctionWeb3, lot, tokens, bets, secret, bet) {
+        this.config = config
+        this.mainWeb3 = mainWeb3
+        this.auctionWeb3 = auctionWeb3
+        this.lot = lot
+        this.tokens = tokens
+        this.bets = bets
+        this.secret = secret
+        this.bet = bet
+        this.status = 'none'
 
+        console.log('Start monitoring auction')
+        this.checkWin()
+    }
+
+    checkWin() {
+        console.log('Check win')
+
+        const abi = require(`../abis/${this.config.auction.auction.abi}`)
+        const contract = new this.auctionWeb3.eth.Contract(abi, this.config.auction.auction.address)
+
+        const repeat = () => {
+            setTimeout(() => {
+                this.checkWin()
+            }, 5000)
+        }
+
+        contract.methods.getWinningBet(this.lot).call({
+            from: ethereumAddress(this.config.auction.secret)
+        }).then(res => {
+            console.log('Win bet:', res)
+            console.log('My bet:', this.bet)
+            let bet = parseInt(res)
+
+            if (bet > 0) {
+                if (bet == this.bet) {
+                    this.status = 'win'
+                    this.handleWin()
+                } else {
+                    this.status = 'lose'
+                }
+            } else {
+                repeat()
+            }
+        }).catch(err => {
+            console.error(err)
+            repeat()
+        })
+    }
+
+    handleWin() {
+        console.log(`${this.bet} win ${this.lot}`)
+    }
 }
 
 class Bot {
@@ -17,6 +69,7 @@ class Bot {
         this.config = config
         this.mainWeb3 = this.initWeb3(config.main)
         this.auctionWeb3 = this.initWeb3(config.auction)
+        this.auctions = []
     }
 
     initWeb3(config) {
@@ -38,6 +91,9 @@ class Bot {
         contract.events.CreateLot()
             .on('data', event => {
                 this.handleLot(event)
+            })
+            .on('changed', event => {
+                console.log(event)
             })
             .on('error', err => {
                 console.log(err)
@@ -68,10 +124,10 @@ class Bot {
             }
         }
 
-        this.bet(event.returnValues.lot, bets)
+        this.bet(event.returnValues.lot, event.returnValues.tokens, bets)
     }
 
-    bet(lot, bets) {
+    bet(lot, tokens, bets) {
         const abi = require(`../abis/${this.config.auction.auction.abi}`)
         const contract = new this.auctionWeb3.eth.Contract(abi, this.config.auction.auction.address)
 
@@ -92,8 +148,20 @@ class Bot {
             .on('transactionHash', tx => {
                 console.log(tx)
             })
-            .on('receipt', receipt => {
-                console.log(receipt)
+            .once('receipt', receipt => {
+                if (receipt.events.CreateBet) {
+                    const auction = new Auction(
+                        this.config,
+                        this.mainWeb3,
+                        this.auctionWeb3,
+                        lot,
+                        tokens,
+                        bets,
+                        uuid,
+                        receipt.events.CreateBet.returnValues.bet
+                    )
+                    this.auctions.push(auction)
+                }
             })
             .on('error', err => {
                 console.error(err)
