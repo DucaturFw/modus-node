@@ -1,6 +1,6 @@
 module.exports = {
     main: {
-        ws: 'ws://0.0.0.0:3416',
+        ws: 'wss://ropsten.infura.io/ws',
         contracts: {
             ft: {
                 abi: 'ft.json',
