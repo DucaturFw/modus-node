@@ -48,7 +48,7 @@ module.exports = {
         contracts: {
             auction: {
                 abi: 'flat_a.json',
-                address: '0x5a7bb4784b058530f20c2fb78c46aebc3af02bcc'
+                address: '0x235b734cb7e0bd10513c8be5f2319a2360ae3d13'
             }
         },
         ganache: {
