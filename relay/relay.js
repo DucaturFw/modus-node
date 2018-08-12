@@ -1,16 +1,32 @@
 const config = require('../config')
 
 const Web3 = require('web3')
+const EthUtil = require('ethereumjs-util')
 
-const mainWeb3 = new Web3(new Web3.providers.WebsocketProvider(config.main.ws))
-const auctionWeb3 = new Web3(new Web3.providers.WebsocketProvider(config.auction.ws))
+function ethereumAddress(secret) {
+    return EthUtil.bufferToHex(EthUtil.privateToAddress(EthUtil.toBuffer(secret)))
+}
+
+function createWeb3(config) {
+    const web3 = new Web3(new Web3.providers.WebsocketProvider(config.ws))
+    const account = web3.eth.accounts.privateKeyToAccount(config.secret)
+    web3.eth.accounts.wallet.add(account)
+    web3.eth.defaultAccount = account.address
+    return web3
+}
+
+const mainWeb3 = createWeb3({ ws: config.main.ws, secret: config.main.relay.secret })
+const auctionWeb3 = createWeb3({ ws: config.auction.ws, secret: config.auction.relay.secret })
 
 const ftABI = require(`../abis/${config.main.contracts.ft.abi}`)
 const ft = new mainWeb3.eth.Contract(ftABI, config.main.contracts.ft.address)
 
+const auctionABI = require(`../abis/${config.auction.contracts.auction.abi}`)
+const auction = new auctionWeb3.eth.Contract(auctionABI, config.auction.contracts.auction.address)
+
 ft.events.NewToken()
     .on('data', event => {
-        console.log(event)
+        handleNewToken(event)
     })
     .on('changed', event => {
         console.log(event)
@@ -19,23 +35,73 @@ ft.events.NewToken()
         console.error(err)
     })
 
-    /*
+function handleNewToken(event) {
+    console.log('Handle New Token')
+    const values = event.returnValues
+    createLot(
+        values.tokenId,
+        values.tokens,
+        values.parts,
+        values.stake
+    )
+}
 
-const mainFactoryABI = require(`../abis/${config.main.factory.abi}`)
-const mainEthABI = require(`../abis/${config.main.etf.abi}`)
+function createLot(ftId, tokens, parts, stake) {
+    console.log(`Create Lot #${ftId}`)
 
-const mainFactory = new mainWeb3.eth.Contract(mainFactoryABI, config.main.factory.address)
-
-mainFactory.events.NewToken().on('data', event => {
-    console.log(event.returnValues.token)
-    const eth = new mainWeb3.eth.Contract(mainEthABI, event.returnValues.token)
-    eth.methods.getRequest().call({}).then(res => {
-        console.log(res)
-    }).catch(err => {
-        console.log(err)
+    auction.methods.createLot(ftId, tokens, parts, stake)
+    .send({
+        from: ethereumAddress(config.auction.relay.secret),
+        gas: 3000000
     })
-}).on('error', err => {
-    console.error(err)
-})
+    .on('transactionHash', tx => {
+        console.log(tx)
+    })
+    .on('receipt', receipt => {
+        console.log(receipt)
 
-*/
+        setTimeout(() => {
+            checkLot(ftId)
+        }, 15000)
+    })
+    .on('error', err => {
+        console.error(err)
+    })
+}
+
+function checkLot(ftId) {
+    console.log(`Check Lot #${ftId}`)
+
+    auction.methods.getWinningBet(ftId).call({
+        from: ethereumAddress(config.auction.relay.secret)
+    }).then(res => {
+        console.log(`Won bet ${res} on #${ftId}`)
+        if (parseInt(res) > 0) {
+            commitWin(ftId, bet)
+        }
+    }).catch(err => {
+        console.error(err)
+    })
+}
+
+function commitWin(ftId, bet) {
+
+    
+}
+
+function setWinner(ftId, tokenValue, secretHash) {
+    ft.methods.setWinner(ftId, tokenValue, secretHash)
+    .send({
+        from: ethereumAddress(config.main.relay.secret),
+        gas: 3000000
+    })
+    .on('transactionHash', tx => {
+        console.log(tx)
+    })
+    .on('receipt', receipt => {
+        console.log(receipt)
+    })
+    .on('error', err => {
+        console.error(err)
+    })
+}
