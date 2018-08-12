@@ -4,7 +4,7 @@ module.exports = {
         contracts: {
             ft: {
                 abi: 'ft.json',
-                address: '0xdc260ff98476a5b98235cfa5981568b857251a57'
+                address: '0x52d6b639e646801f2dbe502870bf06435df7b6e0'
             }
         },
         ganache: {

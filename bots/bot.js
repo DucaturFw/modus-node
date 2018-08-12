@@ -2,7 +2,7 @@ const Web3 = require('web3')
 const Big = require('big.js')
 const EthUtil = require('ethereumjs-util')
 const RIPEMD160 = require('ripemd160')
-const uuidv4 = require('uuid/v4')
+const crypto = require('crypto')
 
 function ethereumAddress(secret) {
     return EthUtil.bufferToHex(EthUtil.privateToAddress(EthUtil.toBuffer(secret)))
@@ -61,7 +61,67 @@ class Auction {
     }
 
     handleWin() {
-        this.log(`${this.bet} win ${this.lot}`)
+        let tasks = []
+
+        for (let i = 0; i < this.tokens.length; i++) {
+            tasks.push({
+                token: this.tokens[i],
+                amount: this.bets[i]
+            })
+        }
+
+        console.log(tasks)
+        this.executeTask(tasks)
+    }
+
+    executeTask(tasks) {
+        if (tasks.length == 0) {
+            this.executeFinal()
+        } else {
+            const task = tasks.shift()
+
+            console.log(task)
+
+            const erc20ABI = require('../abis/erc20.json')
+            const erc20 = new this.mainWeb3.eth.Contract(erc20ABI, task.token)
+        
+            erc20.methods.transfer(this.config.main.ft.address, task.amount).send({
+                from: ethereumAddress(this.config.main.secret),
+                gas: '1000000'
+            }, (err, res) => {
+                if (err) {
+                    return console.error(err)
+                }
+          
+                console.log(res)
+
+                this.executeTask(tasks)
+            })
+        }
+    }
+
+    executeFinal() {
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        console.log('FtID:', this.lot)
+        console.log('Secret:', this.secret)
+        
+        const abi = require(`../abis/${this.config.main.ft.abi}`)
+        const contract = new this.mainWeb3.eth.Contract(abi, this.config.main.ft.address)
+
+        contract.methods.swap(this.lot, EthUtil.bufferToHex(this.secret))
+            .send({
+                from: ethereumAddress(this.config.main.secret),
+                gas: '2000000'
+            })
+            .on('transactionHash', tx => {
+                console.log(tx)
+            })
+            .once('receipt', receipt => {
+                console.log(receipt)
+            })
+            .on('error', err => {
+                console.error(err)
+            })
     }
 
     log(text) {
@@ -145,8 +205,7 @@ class Bot {
         const abi = require(`../abis/${this.config.auction.auction.abi}`)
         const contract = new this.auctionWeb3.eth.Contract(abi, this.config.auction.auction.address)
 
-        const uuid = uuidv4()
-        const secret = Buffer.from(uuid, 'utf-8')
+        const secret = crypto.randomBytes(32)
         const hash = EthUtil.bufferToHex(new RIPEMD160().update(secret).digest())
 
         this.log(`methods.createBet: #${lot}`)
@@ -177,7 +236,7 @@ class Bot {
                         lot,
                         tokens,
                         bets,
-                        uuid,
+                        secret,
                         bet
                     )
                     this.auctions.push(auction)

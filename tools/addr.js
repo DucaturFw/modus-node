@@ -4,6 +4,6 @@ function ethereumAddress(secret) {
     return EthUtil.bufferToHex(EthUtil.privateToAddress(EthUtil.toBuffer(secret)))
 }
 
-const secret = '0xebed62445f346abe7f51bd1a80be9788007570a83e9c43a5a45cb49c33b9a85f'
+const secret = '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
 
 console.log(ethereumAddress(secret))

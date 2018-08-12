@@ -6,6 +6,7 @@ const seeta = new Bot({
     name: 'Seeta',
     main: {
         ws: config.main.ws,
+        ft: config.main.contracts.ft,
         secret: config.main.bots.seeta
     },
     auction: {
@@ -14,18 +15,18 @@ const seeta = new Bot({
         secret: config.auction.bots.seeta
     },
     tokens: {
-        '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e': {
+        '0x455d866fcb8e977965bd4627612c411ab2a05cc3': {
             name: 'Maker',
             symbol: 'MKR',
             decimal: 4,
-            address: '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e',
+            address: '0x455d866fcb8e977965bd4627612c411ab2a05cc3',
             price: 1.46
         },
-        '0x4133bc0d26756ca12eb06d2dc7cfbdac2d9595fb': {
+        '0x11f68e042484e7243207e02a10904a649528ac0f': {
             name: 'OmiseGO',
             symbol: 'OMG',
             decimal: 4,
-            address: '0x4133bc0d26756ca12eb06d2dc7cfbdac2d9595fb',
+            address: '0x11f68e042484e7243207e02a10904a649528ac0f',
             price: 0.013
         },
         '0xa17fafbab3a66262509c27bf4430bb4ec86af33a': {
@@ -49,6 +50,7 @@ const geeta = new Bot({
     name: 'Geeta',
     main: {
         ws: config.main.ws,
+        ft: config.main.contracts.ft,
         secret: config.main.bots.geeta
     },
     auction: {
@@ -57,18 +59,18 @@ const geeta = new Bot({
         secret: config.auction.bots.geeta
     },
     tokens: {
-        '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e': {
+        '0x455d866fcb8e977965bd4627612c411ab2a05cc3': {
             name: 'Maker',
             symbol: 'MKR',
             decimal: 4,
-            address: '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e',
+            address: '0x455d866fcb8e977965bd4627612c411ab2a05cc3',
             price: 1.6
         },
-        '0x4133bc0d26756ca12eb06d2dc7cfbdac2d9595fb': {
+        '0x11f68e042484e7243207e02a10904a649528ac0f': {
             name: 'OmiseGO',
             symbol: 'OMG',
             decimal: 4,
-            address: '0x4133bc0d26756ca12eb06d2dc7cfbdac2d9595fb',
+            address: '0x11f68e042484e7243207e02a10904a649528ac0f',
             price: 0.008
         },
         '0xa17fafbab3a66262509c27bf4430bb4ec86af33a': {

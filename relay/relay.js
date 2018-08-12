@@ -91,7 +91,6 @@ function getLotInfo(ftId, bet) {
         from: ethereumAddress(config.auction.relay.secret)
     }).then(res => {
         console.log(res)
-        console
         setWinner(ftId, res.score, res.secretHash)
     }).catch(err => {
         console.error(err)
@@ -100,6 +99,12 @@ function getLotInfo(ftId, bet) {
 
 function setWinner(ftId, tokenValue, secretHash) {
     console.log('Set Winner')
+
+    console.log(ftId)
+    console.log(tokenValue)
+    console.log(secretHash)
+
+    console.log(ethereumAddress(config.main.relay.secret))
 
     ft.methods.setWinner(ftId, tokenValue, secretHash)
     .send({
