@@ -101,6 +101,7 @@ class Auction {
     }
 
     executeFinal() {
+        console.log()
         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         console.log('FtID:', this.lot)
         console.log('Secret:', this.secret)
