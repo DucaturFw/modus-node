@@ -1,4 +1,5 @@
 const config = require('../config')
+const RIPEMD160 = require('ripemd160')
 
 const Web3 = require('web3')
 
