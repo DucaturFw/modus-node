@@ -39,16 +39,19 @@ class Auction {
         contract.methods.getWinningBet(this.lot).call({
             from: ethereumAddress(this.config.auction.secret)
         }).then(res => {
-            this.log('Win bet:', res)
-            this.log('My bet:', this.bet)
+            this.log(`Win bet: ${res}`)
+            this.log(`My bet: ${this.bet}`)
+
             let bet = parseInt(res)
 
             if (bet > 0) {
                 if (bet == this.bet) {
                     this.status = 'win'
+                    this.log(`Win #${this.lot}`)
                     this.handleWin()
                 } else {
                     this.status = 'lose'
+                    this.log(`Lose #${this.lot}`)
                 }
             } else {
                 repeat()
