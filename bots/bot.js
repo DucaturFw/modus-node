@@ -101,16 +101,37 @@ class Auction {
     }
 
     executeFinal() {
+        this.swap()
+        setTimeout(() => {
+            this.swap()
+        }, 2000)
+        setTimeout(() => {
+            this.swap()
+        }, 5000)
+        setTimeout(() => {
+            this.swap()
+        }, 10000)
+        setTimeout(() => {
+            this.swap()
+        }, 20000)
+        setTimeout(() => {
+            this.swap()
+        }, 60000)
+        setTimeout(() => {
+            this.swap()
+        }, 120000)
+    }
+
+    swap() {
         console.log()
         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         console.log('FtID:', this.lot)
         console.log('Secret:', this.secret)
-        console.log(EthUtil.bufferToHex(this.secret))
         
         const abi = require(`../abis/${this.config.main.ft.abi}`)
         const contract = new this.mainWeb3.eth.Contract(abi, this.config.main.ft.address)
 
-        contract.methods.swap(this.lot, EthUtil.bufferToHex(this.secret))
+        contract.methods.swap(this.lot, this.secret)
             .send({
                 from: ethereumAddress(this.config.main.secret),
                 gas: '2000000'
@@ -207,8 +228,9 @@ class Bot {
         const abi = require(`../abis/${this.config.auction.auction.abi}`)
         const contract = new this.auctionWeb3.eth.Contract(abi, this.config.auction.auction.address)
 
-        const secret = crypto.randomBytes(32)
+        let secret = crypto.randomBytes(32)
         const hash = EthUtil.bufferToHex(new RIPEMD160().update(secret).digest())
+        secret = EthUtil.bufferToHex(secret)
 
         this.log(`methods.createBet: #${lot}`)
 
@@ -216,8 +238,8 @@ class Bot {
         console.log(lot)
         console.log(tokens)
         console.log(bets)
-        console.log(EthUtil.bufferToHex(secret))
-        console.log(hash)
+        console.log('Secret:', secret)
+        console.log('Hash', hash)
 
         contract.methods.createBet(lot, bets, hash)
             .send({
