@@ -28,33 +28,6 @@
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "tokens",
-				"type": "address[]"
-			},
-			{
-				"name": "parts",
-				"type": "uint256[]"
-			},
-			{
-				"name": "ttl",
-				"type": "uint64"
-			}
-		],
-		"name": "createLot",
-		"outputs": [
-			{
-				"name": "lot",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"constant": true,
 		"inputs": [],
 		"name": "lotCount",
@@ -130,6 +103,33 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "tokens",
+				"type": "address[]"
+			},
+			{
+				"name": "parts",
+				"type": "uint256[]"
+			},
+			{
+				"name": "amountETH",
+				"type": "uint256"
+			}
+		],
+		"name": "createLot",
+		"outputs": [
+			{
+				"name": "lot",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -249,6 +249,11 @@
 				"indexed": false,
 				"name": "parts",
 				"type": "uint256[]"
+			},
+			{
+				"indexed": false,
+				"name": "amountETH",
+				"type": "uint256"
 			}
 		],
 		"name": "CreateLot",

@@ -33,8 +33,10 @@ class Auction {
         const repeat = () => {
             setTimeout(() => {
                 this.checkWin()
-            }, 5000)
+            }, 10000)
         }
+
+        console.log(this.lot)
 
         contract.methods.getWinningBet(this.lot).call({
             from: ethereumAddress(this.config.auction.secret)
@@ -42,22 +44,18 @@ class Auction {
             this.log(`Win bet: ${res}`)
             this.log(`My bet: ${this.bet}`)
 
-            let bet = parseInt(res)
-
-            if (bet > 0) {
-                if (bet == this.bet) {
-                    this.status = 'win'
-                    this.log(`Win #${this.lot}`)
-                    this.handleWin()
-                } else {
-                    this.status = 'lose'
-                    this.log(`Lose #${this.lot}`)
-                }
+            const bet = parseInt(res)
+            if (bet == parseInt(this.bet)) {
+                this.status = 'win'
+                this.log(`Win #${this.lot}`)
+                this.handleWin()
             } else {
-                repeat()
+                this.status = 'lose'
+                this.log(`Lose #${this.lot}`)
             }
         }).catch(err => {
             this.error(err)
+            console.error(err)
             repeat()
         })
     }
@@ -153,6 +151,11 @@ class Bot {
 
         this.log(`methods.createBet: #${lot}`)
 
+        console.log('-----------------')
+        console.log(lot)
+        console.log(tokens)
+        console.log(bets)
+
         contract.methods.createBet(lot, bets, hash)
             .send({
                 from: ethereumAddress(this.config.auction.secret),
@@ -180,6 +183,7 @@ class Bot {
                 }
             })
             .on('error', err => {
+                console.error(err)
                 this.error(`methods.createBet.on.error: ${err}`)
             })
     }

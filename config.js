@@ -16,7 +16,7 @@ module.exports = {
         contracts: {
             auction: {
                 abi: 'flat_a.json',
-                address: '0x8337a64ee92b5763977bc10b5361ea0f6423e768'
+                address: '0x5facbc982591f2382b3a0b874c88fd26ab14e12e'
             }
         },
         net: {
