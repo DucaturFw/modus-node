@@ -85,10 +85,13 @@ function checkLot(ftId) {
 }
 
 function getLotInfo(ftId, bet) {
+    console.log('Get Lot Info')
+
     auction.methods.getWinBetInfo(ftId).call({
         from: ethereumAddress(config.auction.relay.secret)
     }).then(res => {
         console.log(res)
+        console
         setWinner(ftId, res.score, res.secretHash)
     }).catch(err => {
         console.error(err)
@@ -96,6 +99,8 @@ function getLotInfo(ftId, bet) {
 }
 
 function setWinner(ftId, tokenValue, secretHash) {
+    console.log('Set Winner')
+
     ft.methods.setWinner(ftId, tokenValue, secretHash)
     .send({
         from: ethereumAddress(config.main.relay.secret),

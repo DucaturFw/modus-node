@@ -155,6 +155,7 @@ class Bot {
         console.log(lot)
         console.log(tokens)
         console.log(bets)
+        console.log(hash)
 
         contract.methods.createBet(lot, bets, hash)
             .send({

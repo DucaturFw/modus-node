@@ -6,12 +6,12 @@ const seeta = new Bot({
     name: 'Seeta',
     main: {
         ws: config.main.ws,
-        secret: '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
+        secret: config.main.bots.seeta
     },
     auction: {
         ws: config.auction.ws,
         auction: config.auction.contracts.auction,
-        secret: '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
+        secret: config.auction.bots.seeta
     },
     tokens: {
         '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e': {
@@ -49,12 +49,12 @@ const geeta = new Bot({
     name: 'Geeta',
     main: {
         ws: config.main.ws,
-        secret: '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
+        secret: config.main.bots.geeta
     },
     auction: {
         ws: config.auction.ws,
         auction: config.auction.contracts.auction,
-        secret: '0x0aebd309b2960e6fd43df883f61635a801265c5c588dec4585ef5002c16d9533'
+        secret: config.auction.bots.geeta
     },
     tokens: {
         '0x6e8c1223e027de8e9a7f9b910ad6190458a1ce5e': {
